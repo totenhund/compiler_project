@@ -105,6 +105,34 @@ public class LexicalAnalyzer {
                     }
                     i++;
                     break;
+                case "/":
+                    // Comments
+
+                    if(prg.charAt(i + 1) == '/'){
+                        while (prg.charAt(i + 1) != '\n'){
+                            i++;
+                        }
+                    } else if(prg.charAt(i + 1) == '*') {
+                        while (true){
+                            if(prg.charAt(i) == '*'){
+                                if(prg.charAt(i + 1) == '/'){
+                                    i+=2;
+                                    break;
+                                }
+                            }
+
+                            if (i == prg.length() - 1){
+                                System.out.println("UNCLOSED_COMMENTS");
+                                break;
+                            }
+
+                            i++;
+                        }
+                    } else {
+                        System.out.println("Lexical error (undefined token): " + currChar.charAt(0));
+                        i++;
+                    }
+                    break;
                 case " ":
                 case "\n":
                 case "\t":
