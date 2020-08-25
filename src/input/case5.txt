@@ -1,0 +1,23 @@
+class BoolMethodsCheck is
+	method check : Real is
+		var T : Boolean(true)
+		var F : Boolean(false)
+
+		if T.Or(F).Not.Or(T.Or(T).Not).Or(F.Or(F)) then
+			return Integer(1)
+		end
+		if T.And(F).Or(T.And(T).Not).Or(F.And(F)) then
+			return Integer(2)
+		end
+		if T.Xor(T).Or(F.Xor(F)).Or(T.Xor(F).Not) then
+			return Integer(3)
+		end
+		if T.Not
+			return Integer(4)
+		end
+		If F.Not
+			//All is fine
+			return Integer(0)
+		end
+	end
+end
