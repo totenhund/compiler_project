@@ -1,0 +1,10 @@
+class MonthlyPayment is
+	
+	var duration : Integer
+	var loan : Real
+	var salary : Real
+
+	method Calculate : Real is
+		return loan.Mult(Integer(0.05).Div(12)).Div(0.5)
+	end
+end

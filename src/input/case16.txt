@@ -1,0 +1,23 @@
+Class Alcohol is
+	var carbon : Integer
+	var oxygen : Integer
+	var hydrogen : Integer
+
+	method SetCarbon(c : Integer) is
+		carbon := c 
+	end
+
+	method SetOxygen(o : Integer) is
+		oxygen := o 
+	end
+
+	method SetHydrogen(h : Integer) is
+		hydrogen := h
+	end
+
+	method CalculateMolecules : Integer is
+		var c : Integer(carbon.Div(2))
+		var h : Integer(hydrogen.Div(6))
+		return oxygen.Min(c.Min(h))
+	end
+end

@@ -1,0 +1,33 @@
+class TimeAdder is
+	var hours : Integer
+	var minutes : Integer
+
+	method this(ih : Integer, im : Integer) is
+		hours := ih
+		minutes := im
+	end
+
+	method SetInitialHours(n : Integer) is
+		hours := n
+	end
+
+	method SetInitialMinutes(n : Integer) is
+		minutes := n
+	end
+
+	method GetMinutes is
+		return minutes
+	end
+
+	method GetHours is
+		return hours
+	end
+
+	method AddMinutes(m : Integer) is
+		var min : Integer(0)
+		min := m.Plus(minutes).Plus(hours.Mult(60))
+		hours := min.Div(60)
+		if hours.GreaterEqual(24) then hours := hours.Minus(24) end
+		minutes := min.Rem(60)
+	end
+end

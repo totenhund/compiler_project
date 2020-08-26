@@ -1,0 +1,10 @@
+class Discriminant is
+
+	var a : Real
+	var b : Real
+	var c : Real
+
+	method Calculate : Real is
+		return b.Mult(b).Minus(a.Mult(b).Mult(4))
+	end
+end
