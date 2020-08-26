@@ -1,0 +1,14 @@
+class CakeCutter is
+	var numberOfGuests : Integer
+
+	method SetNumberOfGuests(n : Integer) is
+		numberOfGuests := n
+	end
+
+	method CalculateEqualPieces : Integer is
+		if numberOfGuests.Rem(2).Equal(0)
+		then return numberOfGuests.Div(2)
+		else return numberOfGuests
+		end
+	end
+end

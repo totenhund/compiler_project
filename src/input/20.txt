@@ -1,0 +1,17 @@
+Class ListTest is
+	var l : List[Integer]
+
+	method this(n : Integer) is
+		l := List[Integer](n)
+	end
+
+	method Check1(x : Integer) : Integer is
+		l.append(x)
+		return l.head()
+	end
+
+	method Check2(x : Integer) : List[Integer] is
+		l.append(x)
+		return l.tail()
+	end
+end

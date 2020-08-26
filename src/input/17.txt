@@ -1,0 +1,12 @@
+class NewInt extends Integer is
+	
+	method Sqr : Integer is
+		return this.Mult(this)
+	end
+
+	method Abs : Integer is
+		if this.Less(0)
+		then return this.UnaryMinus()
+		else return this
+	end
+end
