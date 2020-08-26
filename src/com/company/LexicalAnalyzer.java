@@ -2,7 +2,6 @@ package com.company;
 
 import java.io.*;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class LexicalAnalyzer {
 
@@ -50,24 +49,27 @@ public class LexicalAnalyzer {
         separatorTokenMap.put(",", "commaSeparator");
     }
 
+    // check if string is keyword
     private Boolean keyOrNot(String token) {
         if (keyHashMap.get(token) == null) return false;
         return keyHashMap.get(token);
     }
 
+    // check if char is separator
     private Boolean isSeparator(String s) {
         if (sepHashMap.get(s) == null) return false;
         return sepHashMap.get(s);
     }
 
+    // check if char is letter or not
     public boolean isLetter(String s) {
         return s.matches(letters.concat("+"));
     }
-
+    // check if char is digit or not
     public boolean isDigit(String s) {
         return String.valueOf(s).matches(digits);
     }
-
+    // check if char is operator
     public boolean isOperator(String s) {
         return s.matches(operators);
     }
@@ -88,6 +90,7 @@ public class LexicalAnalyzer {
         return stringBuilder.toString();
     }
 
+    // Scanner
     public void scanCode() throws IOException {
 
         String prg = convertFileToString();
