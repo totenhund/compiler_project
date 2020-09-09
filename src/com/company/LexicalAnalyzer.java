@@ -1,6 +1,7 @@
 package com.company;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LexicalAnalyzer {
@@ -20,12 +21,14 @@ public class LexicalAnalyzer {
     private final String digits = "[0-9]";
 
     private String pathToFile = "";
+    ArrayList<Token> tokens;
 
     public LexicalAnalyzer(String path) {
         initKeywords();
         initSeparators();
         initSeparatorTokenMap();
         pathToFile = path;
+        tokens = new ArrayList<Token>();
     }
 
     private void initKeywords() {
@@ -90,6 +93,12 @@ public class LexicalAnalyzer {
         return stringBuilder.toString();
     }
 
+    void Print_Tokens(){
+        for (int j = 0; j < tokens.size(); j++) {
+            System.out.print(tokens.get(j).token_type + " '");
+            System.out.println(tokens.get(j).data + "'");
+        }
+    }
     // Scanner
     public void scanCode() throws IOException {
 
@@ -101,10 +110,10 @@ public class LexicalAnalyzer {
                 case ":":
                     // Operators
                     if (prg.charAt(i + 1) == '=') {
-                        System.out.println("varAssignOperator");
+                        tokens.add(new Token("varAssignOperator", ":="));
                         i++;
                     } else {
-                        System.out.println("typeAssignOperator");
+                        tokens.add(new Token("typeAssignOperator", ":"));
                     }
                     i++;
                     break;
@@ -153,14 +162,14 @@ public class LexicalAnalyzer {
                         }
 
                         if (keyOrNot(token)) {
-                            System.out.println(token + "Keyword");
+                            tokens.add(new Token(token + "Keyword", token));
                         } else {
-                            System.out.println("identifier");
+                            tokens.add(new Token("identifier", token));
                         }
 
                     }else if(isSeparator(currChar)){
                         // Separators
-                        System.out.println(separatorTokenMap.get(currChar));
+                        tokens.add(new Token(separatorTokenMap.get(currChar), currChar));
                     }else if(isDigit(currChar)){
                         // Numbers
                         String token = currChar;
@@ -168,7 +177,7 @@ public class LexicalAnalyzer {
                             token += String.valueOf(prg.charAt(i + 1));
                             i++;
                         }
-                        System.out.println("number");
+                        tokens.add(new Token("number", token));
                     }else{
                         // Mistakes
                         if(currChar.charAt(0)!=Character.MIN_VALUE){
