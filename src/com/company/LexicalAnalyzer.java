@@ -1,6 +1,9 @@
 package com.company;
 
+import com.company.tokens.*;
+
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LexicalAnalyzer {
@@ -40,7 +43,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private void initSeparatorTokenMap(){
+    private void initSeparatorTokenMap() {
         separatorTokenMap.put("[", "openSquareBracketSeparator");
         separatorTokenMap.put("]", "closeSquareBracketSeparator");
         separatorTokenMap.put("(", "openBracketSeparator");
@@ -50,7 +53,7 @@ public class LexicalAnalyzer {
     }
 
     // check if string is keyword
-    private Boolean keyOrNot(String token) {
+    private Boolean isKeyword(String token) {
         if (keyHashMap.get(token) == null) return false;
         return keyHashMap.get(token);
     }
@@ -65,10 +68,12 @@ public class LexicalAnalyzer {
     public boolean isLetter(String s) {
         return s.matches(letters.concat("+"));
     }
+
     // check if char is digit or not
     public boolean isDigit(String s) {
         return String.valueOf(s).matches(digits);
     }
+
     // check if char is operator
     public boolean isOperator(String s) {
         return s.matches(operators);
@@ -91,8 +96,8 @@ public class LexicalAnalyzer {
     }
 
     // Scanner
-    public void scanCode() throws IOException {
-
+    public ArrayList<Token> scanCode() throws IOException {
+        ArrayList<Token> tokenList = new ArrayList<>();
         String prg = convertFileToString();
         int i = 0;
         while (i < prg.length()) {
@@ -101,9 +106,11 @@ public class LexicalAnalyzer {
                 case ":":
                     // Operators
                     if (prg.charAt(i + 1) == '=') {
+                        tokenList.add(new Token("varAssignOperator"));
                         System.out.println("varAssignOperator");
                         i++;
                     } else {
+                        tokenList.add(new Token("typeAssignOperator"));
                         System.out.println("typeAssignOperator");
                     }
                     i++;
@@ -111,20 +118,20 @@ public class LexicalAnalyzer {
                 case "/":
                     // Comments
 
-                    if(prg.charAt(i + 1) == '/'){
-                        while (prg.charAt(i + 1) != '\n'){
+                    if (prg.charAt(i + 1) == '/') {
+                        while (prg.charAt(i + 1) != '\n') {
                             i++;
                         }
-                    } else if(prg.charAt(i + 1) == '*') {
-                        while (true){
-                            if(prg.charAt(i) == '*'){
-                                if(prg.charAt(i + 1) == '/'){
-                                    i+=2;
+                    } else if (prg.charAt(i + 1) == '*') {
+                        while (true) {
+                            if (prg.charAt(i) == '*') {
+                                if (prg.charAt(i + 1) == '/') {
+                                    i += 2;
                                     break;
                                 }
                             }
 
-                            if (i == prg.length() - 1){
+                            if (i == prg.length() - 1) {
                                 System.out.println("UNCLOSED_COMMENTS");
                                 break;
                             }
@@ -152,33 +159,48 @@ public class LexicalAnalyzer {
                             i++;
                         }
 
-                        if (keyOrNot(token)) {
-                            System.out.println(token + "Keyword");
+                        if (isKeyword(token)) {
+                            tokenList.add(new Token(token));
+                            System.out.println(token);
                         } else {
+                            tokenList.add(new IdentifierToken(token));
                             System.out.println("identifier");
                         }
 
-                    }else if(isSeparator(currChar)){
+                    } else if (isSeparator(currChar)) {
                         // Separators
+                        tokenList.add(new Token(separatorTokenMap.get(currChar)));
                         System.out.println(separatorTokenMap.get(currChar));
-                    }else if(isDigit(currChar)){
+                    } else if (isDigit(currChar)) {
                         // Numbers
                         String token = currChar;
-                        while (isDigit(String.valueOf(prg.charAt(i + 1))) && i < prg.length() - 1){
+                        while (i < prg.length() - 1 && (isDigit(String.valueOf(prg.charAt(i + 1)))
+                                || (prg.charAt(i + 1) == '.' && !token.contains(".")))) {
                             token += String.valueOf(prg.charAt(i + 1));
                             i++;
                         }
-                        System.out.println("number");
-                    }else{
+                        boolean tokenIsFloat = token.matches("[+]?[0-9]*\\.?[0-9]+");
+                        if (tokenIsFloat) {
+                            tokenList.add(new RealToken(Double.parseDouble(token)));
+                        } else {
+                            tokenList.add(new IntToken(Integer.parseInt(token)));
+                        }
+                        System.out.println("number" + token);
+                    } else {
                         // Mistakes
-                        if(currChar.charAt(0)!=Character.MIN_VALUE){
+                        if (currChar.charAt(0) != Character.MIN_VALUE) {
                             System.out.println("Lexical error (undefined token): " + currChar.charAt(0));
                         }
                     }
                     i++;
             }
         }
-
+        /* Print as tokens
+        for (Token t:tokenList) {
+            System.out.println(t);
+        }
+        */
+        return tokenList;
     }
 
 }
