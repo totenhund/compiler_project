@@ -60,4 +60,18 @@ public class Node {
         childrenAmount++;
         children.add(child);
     }
+
+    public void printTree() {
+        System.out.println("{\n\tType: "+type);
+        System.out.print("\tChilds:");
+        for (Node node:children) {
+            if(node!=null)
+                System.out.print(" "+node.type);
+        }
+        System.out.println("\n}");
+        for (Node node:children) {
+            if(node!=null)
+                node.printTree();
+        }
+    }
 }
