@@ -19,5 +19,6 @@ public class Main {
         }
         SyntaxAnalyzer syn = new SyntaxAnalyzer(tokens);
         Node result = syn.makeAST();
+        result.printTree();
     }
 }
