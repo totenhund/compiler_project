@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class SyntaxAnalyzer {
     private final ArrayList<Token> tokens;
     private int cursor;
+    private boolean DEBUG_MODE;
 
     public SyntaxAnalyzer(ArrayList<Token> tokens) {
         this.tokens = tokens;
@@ -15,6 +16,7 @@ public class SyntaxAnalyzer {
 
     public Node makeAST() {
         cursor = 0;
+        DEBUG_MODE = false;
         return parseProgram();
     }
 
@@ -26,7 +28,8 @@ public class SyntaxAnalyzer {
         if (!cursorAtToken(keyword)) {
             return false;
         }
-        //System.out.println("Keyword "+keyword+ ", cursor = " + cursor);
+        if (DEBUG_MODE)
+            System.out.println("Keyword " + keyword + ", cursor = " + cursor);
         cursor++;
         return true;
     }
@@ -385,6 +388,9 @@ public class SyntaxAnalyzer {
             return null;
         }
         currentNode.addChild(primary);
+        //Parse constructor arguments
+        Node args = parseArguments(currentNode);
+        currentNode.addChild(args);
         //Parse method calls
         while (true) {
             Node methodCall = parseMethodCall(currentNode);
@@ -405,12 +411,10 @@ public class SyntaxAnalyzer {
             return null;
         }
         currentNode.addChild(expression);
-        while (checkKeyword("commaSeparator"))
-        {
+        while (checkKeyword("commaSeparator")) {
             //Parse expression
             Node addExpression = parseExpression(currentNode);
-            if (addExpression==null)
-            {
+            if (addExpression == null) {
                 System.out.println("Syntax error: additional argument is missing");
                 return null;
             }
@@ -443,7 +447,8 @@ public class SyntaxAnalyzer {
     private Node parseIdentifier(Node parent) {
         Node currentNode = new Node(NodeType.Identifier, parent, tokens.get(cursor));
         if (cursorAtToken("identifier")) {
-            //System.out.println("Identifier + "+tokens.get(cursor).getType() + ", cursor = " + cursor);
+            if (DEBUG_MODE)
+                System.out.println("Identifier " + tokens.get(cursor).getType() + ", cursor = " + cursor);
             cursor++;
             return currentNode;
         } else
@@ -456,7 +461,8 @@ public class SyntaxAnalyzer {
                 cursorAtToken("integer") ||
                 cursorAtToken("this")) {
             cursor++;
-            //System.out.println("Primary + "+tokens.get(cursor).getType() +", cursor = " + cursor);
+            if (DEBUG_MODE)
+                System.out.println("Primary + " + tokens.get(cursor).getType() + ", cursor = " + cursor);
             return new Node(NodeType.MethodCall, parent, tokens.get(cursor));
         } else {
             Node classNameOrIdentifier = parseIdentifier(currentNode);
