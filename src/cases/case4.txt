@@ -12,9 +12,9 @@ class RealMethodsCheck is
 		var conv : Real(bar.toReal())
 		var bool : Boolean(bar.toBoolean())
 
-		foo := 5.52
-		bar :=-5.52
-		var tem := Real(5.52)
+		foo :=  5.52
+		bar := -5.52
+		var tem : Real(5.52)
 
 		//Relations 7-10 error codes
 		if tem.Equal(foo).Not then

@@ -1,6 +1,6 @@
 class BoolCheck is
-	method OperationCheck1(a : Boolean, x : Boolean) : Boolean is
-	var b : Boolean
+	method OperationCheckFirst(a : Boolean, x : Boolean) : Boolean is
+	    var b : Boolean
 		if a.ToInteger.Equal(1) then
 			b := a.And(x)
 		else
@@ -9,7 +9,7 @@ class BoolCheck is
 		return b
 	end
 
-	method OperationCheck2(a : Boolean, x : Boolean) : Boolean is
+	method OperationCheckSecond(a : Boolean, x : Boolean) : Boolean is
 	var b : Boolean
 		if a.ToInteger.Equal(1) then
 			b := a.Xor(x)

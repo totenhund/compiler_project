@@ -3,7 +3,7 @@ class IntPositivePow is
 		var zero : Integer(0)
 		var one : Integer(1)
 		if pow.Less(zero) then 
-			return Integer(-1) 
+			return Integer(-1)
 		end
 		if pow.Equal(zero) then
 			return one

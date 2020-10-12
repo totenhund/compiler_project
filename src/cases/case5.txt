@@ -12,10 +12,10 @@ class BoolMethodsCheck is
 		if T.Xor(T).Or(F.Xor(F)).Or(T.Xor(F).Not) then
 			return Integer(3)
 		end
-		if T.Not
+		if T.Not then
 			return Integer(4)
 		end
-		If F.Not
+		if F.Not then
 			//All is fine
 			return Integer(0)
 		end
