@@ -1,4 +1,4 @@
-Class Alcohol is
+class Alcohol is
 	var carbon : Integer
 	var oxygen : Integer
 	var hydrogen : Integer

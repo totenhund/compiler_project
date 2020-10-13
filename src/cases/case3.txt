@@ -6,12 +6,8 @@ class IntMethodsCheck is
 		foo := Integer.Min
 		foo := Integer.Max
 
-		var conv : Real(bar.toReal())
-		var bool : Boolean(bar.toBoolean())
-
 		foo := 5
 		bar :=-5
-		var tem := Integer(5)
 
 		//Relations 7-10 error codes
 		if tem.Equal(foo).Not then
@@ -29,26 +25,6 @@ class IntMethodsCheck is
 		if foo.Less(Integer(5)) then
 			return Integer(10)
 		end
-		//Arithmetics 1-6 error codes
-		if foo.UnaryMinus.Equal(bar).Not then
-			return Integer(1)
-		end
-		if foo.Plus(foo).Equal(Integer(10)).Not then
-			return Integer(2)
-		end
-		if foo.Minus(bar).Equal(Integer(10)).Not then
-			return Integer(3)
-		end
-		if Integer(3).Mult(foo).Equal(Integer(15)).Not then
-			return Integer(4)
-		end
-		if Integer(25).Div(foo).Equal(Integer(5)).Not then
-			return Integer(5)
-		end
-		if Integer(23).Div(foo).Equal(foo).Not then
-			return Integer(6)
-		end
-		//All is fine
-		return Integer(0)
+
 	end
 end

@@ -107,11 +107,11 @@ public class LexicalAnalyzer {
                     // Operators
                     if (prg.charAt(i + 1) == '=') {
                         tokenList.add(new Token("varAssignOperator"));
-                        System.out.println(tokenList.size()-1 + " varAssignOperator");
+                        System.out.println("varAssignOperator");
                         i++;
                     } else {
                         tokenList.add(new Token("typeAssignOperator"));
-                        System.out.println(tokenList.size()-1 + " typeAssignOperator");
+                        System.out.println("typeAssignOperator");
                     }
                     i++;
                     break;
@@ -132,14 +132,14 @@ public class LexicalAnalyzer {
                             }
 
                             if (i == prg.length() - 1) {
-                                System.out.println("!!!UNCLOSED_COMMENTS");
+                                System.out.println("UNCLOSED_COMMENTS");
                                 break;
                             }
 
                             i++;
                         }
                     } else {
-                        System.out.println("!!!Lexical error (undefined token): " + currChar.charAt(0));
+                        System.out.println("Lexical error (undefined token): " + currChar.charAt(0));
                         i++;
                     }
                     break;
@@ -161,16 +161,16 @@ public class LexicalAnalyzer {
 
                         if (isKeyword(token)) {
                             tokenList.add(new Token(token));
-                            System.out.println(tokenList.size()-1 + " " + token);
+                            System.out.println(token);
                         } else {
                             tokenList.add(new IdentifierToken(token));
-                            System.out.println(tokenList.size()-1 + " identifier");
+                            System.out.println("identifier");
                         }
 
                     } else if (isSeparator(currChar)) {
                         // Separators
                         tokenList.add(new Token(separatorTokenMap.get(currChar)));
-                        System.out.println(tokenList.size()-1 + " " + separatorTokenMap.get(currChar));
+                        System.out.println(separatorTokenMap.get(currChar));
                     } else if (isDigit(currChar)) {
                         // Numbers
                         String token = currChar;
@@ -184,16 +184,21 @@ public class LexicalAnalyzer {
                             tokenList.add(new IntToken((int) Math.round(val)));
                         else
                             tokenList.add(new RealToken(val));
-                        System.out.println(tokenList.size()-1 + " number " + token);
+                        System.out.println("number" + token);
                     } else {
                         // Mistakes
                         if (currChar.charAt(0) != Character.MIN_VALUE) {
-                            System.out.println("!!!Lexical error (undefined token): " + currChar.charAt(0));
+                            System.out.println("Lexical error (undefined token): " + currChar.charAt(0));
                         }
                     }
                     i++;
             }
         }
+        /* Print as tokens
+        for (Token t:tokenList) {
+            System.out.println(t);
+        }
+        */
         return tokenList;
     }
 

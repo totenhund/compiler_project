@@ -17,7 +17,7 @@ class intQueue extends AnyRef is
 	method poll : Integer is
 		var temp : Integer(-1)
 		if cursor.Equal(0).Not then	
-			var temp := base.get(cursor)
+			temp := base.get(cursor)
 			cursor := cursor.Minus(1)
 		end
 		return temp
@@ -26,7 +26,7 @@ class intQueue extends AnyRef is
 	method peek : Integer is
 		var temp : Integer(-1)
 		if cursor.Equal(0).Not then	
-			var temp := base.get(cursor)
+			temp := base.get(cursor)
 		end
 		return temp
 	end

@@ -1,9 +1,9 @@
-Class Sort is
+class Sort is
 	var arr : Array[Integer]
 	var size: Integer
 
 	method this(n : Integer) is
-		arr := Array[Integer](n)
+		arr := Array(n)
 		size:= n
 	end
 
@@ -13,10 +13,10 @@ Class Sort is
 		var c : Integer
 		while i.Less(size) loop
 			while j.Less(size) loop
-				if arr.get(j).Greater(arr.get(j+1)) then
+				if arr.get(j).Greater(arr.get(j.Plus(1))) then
 					c := arr.get(j)
-					arr.set(j, arr.get(j+1))
-					arr.set(j+1) := c
+					arr.set(j, arr.get(j.Plus(1)))
+					arr.set(j.Plus(1), c)
 				end
 				j := j.Plus(1)
 			end

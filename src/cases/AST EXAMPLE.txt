@@ -1,0 +1,7 @@
+class ReturnOne is
+	method getOne(paramExample : Integer) : Integer is
+		var one : Integer(0)
+		one := Integer(1)
+		return one
+	end
+end

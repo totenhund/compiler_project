@@ -5,8 +5,10 @@ class NewInt extends Integer is
 	end
 
 	method Abs : Integer is
-		if this.Less(0)
-		then return this.UnaryMinus()
-		else return this
+		if this.Less(0) then
+		    return this.UnaryMinus()
+		else
+		    return this
+		end
 	end
 end
