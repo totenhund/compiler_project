@@ -1,0 +1,18 @@
+class IntPositivePow is
+	method getPow(num: Integer, pow: Integer) : Integer is
+		var zero : Integer(0)
+		var one : Integer(1)
+		if pow.Less(zero) then 
+			return Integer(-1)
+		end
+		if pow.Equal(zero) then
+			return one
+		end
+		if pow.Equal(one) then
+			return num
+		end
+		var newPow : Integer(pow.Minus(1))
+		var newNum : Integer(num.Mult(num))
+		return this.getPow(newNum, newPow)
+	end
+end

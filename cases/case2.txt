@@ -1,0 +1,14 @@
+class ReverseInteger is
+	method reverse(num: Integer) : Integer is
+		var n : Integer(0)
+		var rev : Integer(0)
+		var remainder : Integer(0)
+		n := num
+		while n.Equal(Integer(0)).Not loop
+			remainder := n.Rem(Integer(10))
+			rev := rev.Mult(10).Plus(remainder)
+			n := n.Div(10)
+		end
+		return rev
+	end
+end

@@ -1,0 +1,22 @@
+class myMonsterRobot is
+	this(legs:Integer, hands:Integer, mem:Integer) is
+		amountOfLegs := legs
+		amountOfHands := hands
+		memory := mem
+	end
+
+	method setLegs(val:Integer) is
+		amountOfLegs := val
+	end
+	method setHands(val:Integer) is
+		amountOfHands := val
+	end
+	method levelOfMonsteriousity : Integer is
+		//(Legs-2)*(Hands-2)/(MemoryLength)
+		return amountOfLegs.Minus(2).Mult(amountOfHands.Minus(2)).Div(memory.Length)
+	end
+
+	var amountOfLegs : Integer
+	var amountOfHands : Integer
+	var memory : Array[Integer] 
+end

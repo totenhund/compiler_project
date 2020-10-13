@@ -20,8 +20,10 @@ public class SyntaxAnalyzer {
         Node result = parseProgram();
         if(cursor!=tokens.size())
         {
-            System.out.println("Syntax error: token " + tokens.get(cursor) + " at position " + cursor + " is unexpected");
-            System.out.println("Intermediate AST is passed");
+            if (!DEBUG_MODE) {
+                System.out.println("Syntax error: token " + tokens.get(cursor) + " at position " + cursor + " is unexpected");
+                System.out.println("Intermediate AST is passed");
+            }
         }
         return result;
     }
@@ -150,6 +152,28 @@ public class SyntaxAnalyzer {
         if (!checkKeyword("typeAssignOperator")) {
             return null;
         }
+        //Parse class
+        int cursor_copy = cursor;
+        Node className = parseClassName(currentNode);
+        if (className == null)
+            cursor = cursor_copy;
+        else {
+            Node args = parseArguments(currentNode);
+            if (args == null)
+                if (parent.getType().equals(NodeType.MemberDeclaration))
+                {
+                    currentNode.addChild(className);
+                    return currentNode;
+                }
+                else
+                    cursor = cursor_copy;
+            else
+            {
+                currentNode.addChild(className);
+                currentNode.addChild(args);
+                return currentNode;
+            }
+        }
         //Parse expression
         Node exp = parseExpression(currentNode);
         if (exp == null) {
@@ -246,14 +270,19 @@ public class SyntaxAnalyzer {
         Node currentNode = new Node(NodeType.Statement, parent);
         //Parse available statements
         //return null if there is none
+        int cursor_copy = cursor;
         Node statement = parseAssignment(currentNode);
         if (statement == null) {
+            cursor = cursor_copy;
             statement = parseWhileLoop(currentNode);
             if (statement == null) {
+                cursor = cursor_copy;
                 statement = parseIfStatement(currentNode);
                 if (statement == null) {
+                    cursor = cursor_copy;
                     statement = parseReturnStatement(currentNode);
                     if (statement == null) {
+                        cursor = cursor_copy;
                         statement = parseExpression(currentNode);
                         if (statement == null)
                             return null;
@@ -414,7 +443,10 @@ public class SyntaxAnalyzer {
         //Parse expression
         Node expression = parseExpression(currentNode);
         if (expression == null) {
-            return null;
+            if (!checkKeyword("closeBracketSeparator"))
+                return null;
+            else
+                return currentNode;
         }
         currentNode.addChild(expression);
         while (checkKeyword("commaSeparator")) {
@@ -443,10 +475,10 @@ public class SyntaxAnalyzer {
         currentNode.addChild(identifier);
         //Parse arguments
         Node arguments = parseArguments(currentNode);
-        if (arguments == null) {
-            return null;
+        if (arguments != null) {
+            currentNode.addChild(arguments);
         }
-        currentNode.addChild(arguments);
+
         return currentNode;
     }
 
@@ -465,12 +497,16 @@ public class SyntaxAnalyzer {
         Node currentNode = new Node(NodeType.Primary, parent);
         if (cursorAtToken("real") ||
                 cursorAtToken("integer") ||
-                cursorAtToken("this")) {
+                cursorAtToken("this") ||
+                cursorAtToken("true") ||
+                cursorAtToken("false")) {
             cursor++;
             if (DEBUG_MODE)
                 System.out.println("Primary + " + tokens.get(cursor).getType() + ", cursor = " + cursor);
-            return new Node(NodeType.MethodCall, parent, tokens.get(cursor));
-        } else {
+            return new Node(NodeType.Primary, parent, tokens.get(cursor));
+        }
+        else
+        {
             Node classNameOrIdentifier = parseIdentifier(currentNode);
             if (classNameOrIdentifier == null) {
                 classNameOrIdentifier = parseClassName(currentNode);

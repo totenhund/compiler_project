@@ -1,0 +1,17 @@
+class zeroDeliever is
+	method delieve : Integer is
+		return Integer(0)
+	end
+end
+
+class zeroDelieverOneDealer extends parent is
+	method deal : Integer is
+		return Integer(1)
+	end
+end
+
+class sonOfThem extends zeroDelieverOneDealer is
+	method delieve : Integer is
+		return this.deal
+	end
+end

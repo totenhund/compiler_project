@@ -1,0 +1,63 @@
+class RealMethodsCheck is
+	method check : Integer is
+		var foo : Real(10.42)
+		var bar : Real(5.5)
+
+		foo := Real.Min
+		foo := Real.Max
+		foo := Real.Epsilon
+
+		var zero : Real(0.0)
+
+		var conv : Real(bar.toReal())
+		var bool : Boolean(bar.toBoolean())
+
+		foo :=  5.52
+		bar := -5.52
+		var tem : Real(5.52)
+
+		//Relations 7-10 error codes
+		if tem.Equal(foo).Not then
+			return Integer(7)
+		end
+
+		if tem.Equal(bar) then
+			return Integer(8)
+		end
+
+		if foo.Greater(Real(5)) then
+			return Integer(9)
+		end
+
+		if foo.Less(Real(5)) then
+			return Integer(10)
+		end
+		//Arithmetics 1-6 error codes
+		if foo.UnaryMinus.Equal(bar).Not then
+			return Integer(1)
+		end
+		if foo.Plus(foo).Equal(Real(10)).Not then
+			return Integer(2)
+		end
+		if foo.Minus(bar).Equal(Real(10)).Not then
+			return Integer(3)
+		end
+		if Real(3).Mult(foo).Equal(Real(15)).Not then
+			return Integer(4)
+		end
+		if Real(25).Div(foo).Equal(Real(5)).Not then
+			return Integer(5)
+		end
+		if Real(23).Div(foo).Equal(foo).Not then
+			return Integer(6)
+		end
+
+		//toInteger convertion 11 error code
+		if zero.toInteger.Equal(Integer(0)).Not then
+			return Integer(11)
+		end
+
+		//All is fine
+		return Integer(0)
+	end
+end
